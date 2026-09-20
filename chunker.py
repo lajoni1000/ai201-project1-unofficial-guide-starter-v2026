@@ -81,23 +81,100 @@ def fallback_split(
 
 
 def split_documents(documents: list[Document]) -> list[Chunk]:
+
     """
-    Split documents into chunks. ⚠️ REPLACE THE BODY OF THIS IN MILESTONE 3.
-
-    Right now it just calls the fallback. That is the plain, generic behaviour
-    the brief is talking about.
-
-    When you write your own strategy, set `produced_by` to
-    "chunker.py::split_documents" so your README's Sample Chunks section names
-    the right function. `app.py chunks` prints that string for you.
-
-    Things worth thinking about before you write any code:
-      - Are your documents short posts or long guides?
-      - Is the useful information in one sentence, or spread over a paragraph?
-      - Would splitting on paragraph breaks keep more thoughts intact than
-        splitting on a character count?
+     Split city guide documents using their Markdown section structure.
     """
-    return fallback_split(documents)
+    chunks: list[Chunk] = []
+
+    for doc in documents:
+        lines = doc.text.splitlines()
+        index = 0
+
+        document_heading = ""
+        intro_lines = []
+        section_heading = ""
+        section_lines = []
+
+        for line in lines:
+            # Save the document heading
+            if line.startswith("# "):
+                document_heading = line
+
+            # A new section starts
+            elif line.startswith("## "):
+
+                # If a section already exists, save it first
+                if section_heading:
+                    section_text = "\n".join(section_lines).strip()
+                    
+                    if index == 0:
+                        intro_text = "\n".join(intro_lines).strip()
+                    else:
+                        intro_text = ""
+
+                    chunk_text = (
+                        document_heading
+                        + "\n\n"
+                        + intro_text
+                        + "\n\n"
+                        + section_heading
+                        + "\n\n"
+                        + section_text
+                    )
+                    chunks.append(
+                        Chunk(
+                            text=chunk_text,
+                            source=doc.source,
+                            index=index,
+                            produced_by="chunker.py::split_documents",
+                        )
+                    )
+                    index += 1
+                          
+
+                # Start collecting the new section
+                section_heading = line
+                section_lines = []
+
+            # Normal text belongs to the intro or current section
+            else:
+                if section_heading:
+                    section_lines.append(line)
+                else:
+                    intro_lines.append(line)
+
+        # Save the final section when the document ends
+        if section_heading:
+            section_text = "\n".join(section_lines).strip()
+            if index == 0:
+                intro_text = "\n".join(intro_lines).strip()
+            else:
+                intro_text = ""
+            chunk_text = (
+                document_heading
+                + "\n\n"
+                + intro_text
+                + "\n\n"
+                + section_heading
+                + "\n\n"
+                + section_text
+            )
+         
+
+            chunks.append(
+                Chunk(
+                    text=chunk_text,
+                    source=doc.source,
+                    index=index,
+                    produced_by="chunker.py::split_documents",
+                )
+            )
+            
+
+    return chunks
+
+
 
 
 def describe(chunks: list[Chunk]) -> str:
