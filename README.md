@@ -121,17 +121,49 @@ a minor injuries unit locally with limited hours.
 
 ## Sample Answer
 
+I kept the top-k at 5 because when I reviewed the retrieved chunks for three of my test questions, the chunks containing the correct information were already included in the five retrieved results. I did not see evidence that changing the number of retrieved chunks was necessary.
+
+I also reviewed the grounding instruction and tested it with one of my questions. The generated answer used only information supported by the retrieved chunks and named the source documents. Because I did not find evidence that the model was adding information outside the retrieved context, I decided to keep the grounding instruction unchanged.
+
+ **Question:** 
+ ```
+ "Which town has a parking problem in summer?"
+  (best distance 0.524, cutoff 0.65)
+```
+**Answer:**
+```
+Halden Bay experiences a parking problem in summer during July and August, when it becomes busy enough that the parking problem becomes the defining feature of the visit. 
+
+Source: `guide_halden_bay.md` and `guide_seasons.md`
+
+Sources retrieved: guide_corry_vale.md, guide_halden_bay.md, guide_kestrelford.md, guide_pellew_sands.md, guide_seasons.md
+
+0 model calls this session, 1 served from cache
+```
 <!-- One complete question and answer, pasted as text, with the source line
      visible. Milestone 4. -->
 
-**Question:**
 
-**Answer:**
-
-```
-```
 
 **My relevance cutoff:**
+0.65
+
+I chose a cutoff of 0.65 because the best distances for my in-corpus questions were between 0.3032 and 0.5239, while the out-of-corpus questions were between 0.8350 and 0.9968. I noticed that one of my in-corpus questions had a distance of 0.5239, and when I reviewed the retrieved chunk, it actually contained the answer. Because 0.5239 was relatively close to the original cutoff of 0.6, I decided to increase the cutoff to 0.65. This gives some additional margin for relevant questions while still keeping the cutoff well below the lowest out-of-corpus distance of 0.8350.
+
+
+
+| Question | In corpus? | Best distance |
+|---|---|---:|
+| Before what time I need to go to Kestrelford's bakery to get some food? | Yes | 0.3032 |
+| How many rail services are available on Sundays? | Yes | 0.4517 |
+| Which town has a parking problem in summer? | Yes | 0.5239 |
+| Is there public transportation in Corry Vale? | Yes | 0.3253 |
+| What is the main event in Kestrelford on Saturday mornings? | Yes | 0.3922 |
+| What is the capital of Mongolia? | No | 0.8463 |
+| How do I change the oil in a diesel engine? | No | 0.9032 |
+| Who won the 1994 World Cup? | No | 0.9968 |
+| What is the recommended dosage of ibuprofen for a headache? | No | 0.8350 |
+| How do I write a for loop in Rust? | No | 0.8365 |
 
 <!-- The number you set in config.py, and how you got there.
 
@@ -142,9 +174,7 @@ a minor injuries unit locally with limited hours.
 
      Milestone 4. -->
 
-| Question | In corpus? | Best distance |
-|---|---|---|
-|  |  |  |
+
 
 ## How I Used AI
 
