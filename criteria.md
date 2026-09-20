@@ -23,6 +23,10 @@ For at least 4 of my 5 test questions, the retrieved chunks include one that
 contains the answer.
 
 **Why this target:**
+I think 4 out of 5 is a good target because the city guides contain similar information about different towns, 
+such as parking, places to see, transportation, and accessibility. Because of this, the system might retrieve 
+similar chunks and miss the chunk that contains the answer for one of the questions.
+
 <!-- e.g. "One of my questions is about a topic only two documents mention, so
      I expect that one to be hard." -->
 
@@ -33,6 +37,10 @@ contains the answer.
 Every answer the system produces names at least one source document.
 
 **Why this target:**
+Every answer should name at least one source because I need to be able to verify where the information came 
+from and check whether the answer is correct. If an answer does not provide a source, I do not have a way 
+to verify it.
+
 <!-- Why all five and not four? What about your setup makes that achievable —
      or what would have to go wrong for it not to be? -->
 
@@ -50,6 +58,12 @@ in at least 4 of 5 tries.
      just keep five of them, or the "4 of 5" above has nothing to be 4 of. -->
 
 **Why this target:**
+I think 4 out of 5 is a good target because when a question is outside the information in the 
+city guides, the system should recognize that it does not have enough information to answer. Otherwise, it 
+could provide an answer that is not supported by the corpus. I understand that the relevance gate may not be 
+perfect because an unrelated question could still be semantically similar to some information in the city 
+guides.
+
 <!-- What did your distances look like when you set the cutoff in Milestone 4?
      Was there a clean gap, or did the two groups overlap? -->
 
@@ -57,9 +71,10 @@ in at least 4 of 5 tries.
 
 ## 4. Something about your chunks
 
-<!-- YOU WRITE THIS ONE.
+When I inspect 5 chunks, 5 out of 5 must meet both conditions: the town/place described must be identifiable 
+from the chunk itself, and the chunk must not begin or end in the middle of a sentence.
 
-     How would you know if your chunks were the right size? Name something
+<!-- How would you know if your chunks were the right size? Name something
      countable or observable.
 
      Examples of the right shape — don't copy these, they should come from
@@ -72,16 +87,19 @@ in at least 4 of 5 tries.
 
 
 **Why this target:**
-
+I chose 5 out of 5 because the city guides contain information about several different towns and places. If a 
+chunk does not identify the town/place or cuts a sentence, the AI might associate the information with the 
+wrong place or use incomplete information.
 
 
 ---
 
 ## 5. Your choice
 
-<!-- YOU WRITE THIS ONE TOO.
+For all 5 of my test questions, every factual claim in the generated answer must be supported by the retrieved 
+chunks.
 
-     Pick something you actually care about getting right. It could be about
+<!--    Pick something you actually care about getting right. It could be about
      speed, about refusals, about a particular kind of question your corpus
      handles badly, about source attribution being correct rather than merely
      present — anything, as long as it names a number or an observable
@@ -90,7 +108,8 @@ in at least 4 of 5 tries.
 
 
 **Why this target:**
-
+I chose 5 out of 5 because the information needed to answer the question should already be present in the 
+retrieved chunks. The AI should not need to add factual information that is not supported by them.
 
 
 ---
