@@ -1,19 +1,8 @@
 # The Unofficial Guide
 
 <!-- Replace this line with your name and which corpus you picked. -->
-
-> **This file is your submission.** Fill it in as you go — most sections get
-> written during the milestone that produces them, not at the end.
->
-> How the starter works, and every command you'll need, is in `RUNNING.md`.
-> Leave that file alone.
->
-> **Paste everything as text.** No screenshots, no video. A typed table gets
-> full credit; a picture of the same table gets none.
->
-> Delete these instruction blocks as you replace them. The `<!-- -->` comments
-> are notes to you and don't show up when the page renders — you can leave them
-> or remove them.
+**Name:** Hanny Payco  
+**Corpus:** city_guides
 
 ---
 
@@ -26,6 +15,7 @@
      this repo.
 
      Milestone 5. -->
+I built a RAG system based on the city_guides documents. The system answers questions about different places and towns in the region and provides information that can be useful when planning a visit. For example, it can answer questions about transportation, attractions, opening hours, accessibility, food, and other practical information. The answers are based on information retrieved from the city guides and include the source document.
 
 ## Chunking Strategy
 
@@ -188,8 +178,21 @@ I chose a cutoff of 0.65 because the best distances for my in-corpus questions w
      Milestone 5. -->
 
 **1.**
+I used AI to help me translate my chunking strategy into Python. I had decided to use the ## Markdown sections
+ as the chunk boundaries, repeat the main # heading to preserve context, and use no overlap between the section 
+content. AI helped me organize the Python logic in split_documents() to implement this strategy. After running 
+the code and inspecting the chunks, I noticed that keeping the introduction as a separate chunk sometimes did 
+not provide enough context, so I changed the code to include the introduction with the first ## section.
 
 **2.**
+I used AI to help me analyze the relevance cutoff after I got the distances for the five in-corpus and five 
+out-of-scope questions. I shared both groups of distances and asked where the cutoff could be placed and what 
+could happen if the cutoff was too low or too high. AI helped me understand better that a cutoff that is too 
+low could reject a question that the documents can answer, while a cutoff that is too high could allow a 
+question that is not supported by the documents. Based on my results, I decided to use 0.65 because my highest 
+in-corpus distance was 0.5239 and my lowest out-of-scope distance was 0.8350. I understand that this cutoff 
+worked for my test questions, but it may not work perfectly for every future question.
+
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
