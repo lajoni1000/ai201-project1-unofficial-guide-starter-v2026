@@ -299,11 +299,11 @@ Retrieval: `store.py::search`
 
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
+| 1 | Retrieved chunk contains the answer | MET | The target was at least 4 of 5 questions. The retrieved chunks contained the answer for 4 of 5 questions in all three runs. |
+| 2 | Every answer names a source | MISSED | The target was 5 of 5. Run 1 scored 4/5, Run 2 scored 5/5, and Run 3 scored 4/5, so the target did not hold across all three runs. |
+| 3 | Gate stops out-of-corpus questions | MET | The target was at least 4 of 5 out-of-corpus questions. The relevance gate refused all 5 out-of-corpus questions. |
+| 4 | Chunks identify the place and contain complete sentences | MET | The target was 5 of 5 chunks meeting both requirements. All 5 chunks identified the place and contained complete sentences. |
+| 5 | Every factual claim is supported by retrieved chunks | MET | The target was 5 of 5 questions. Every factual claim in the generated answers was supported by the retrieved chunks for all 5 questions in all three runs. |
 
 ## Diagnoses
 
