@@ -307,6 +307,18 @@ Retrieval: `store.py::search`
 
 ## Diagnoses
 
+### Criterion 2 — Every answer names a source
+
+**Stage: Generation**
+
+The Sunday rail question was the only question that caused Criterion 2 to miss. The retrieved context was the same in all three runs, but the generated responses were different. In Run 2, the refusal included the source documents, while in Runs 1 and 3, the model responded, "I do not have enough information to answer your question" without naming a source. Because the retrieval results did not change between runs but the source attribution in the generated response did, I traced this miss to the generation stage.
+
+### Additional finding — Sunday rail retrieval
+
+Criterion 1 was MET because its target was at least 4 of 5 questions and the system achieved 4/5 in all three runs. However, the Sunday rail question exposed a retrieval problem. The correct answer, "six on Sundays," is in the railway section of `guide_regional_transport.md`, but the retrieved chunk from that document was from the buses section instead. Therefore, the answer was not present in the retrieved context even though the correct source document appeared in the retrieval results.
+
+
+
 <!-- For each miss: which stage caused it, and how. The stage alone isn't
      enough — you need the mechanism.
 
