@@ -232,13 +232,27 @@ worked for my test questions, but it may not work perfectly for every future que
      Name the file and function that produced it. -->
 
 ### Criterion 1 — Retrieved chunk contains the answer
-How many rail services are available on Sundays? — run 2
+Question: Which town has a parking problem in summer?
 
-"I don't have enough information to answer this question. (Source: guide_regional_transport.md, guide_marchwood.md, guide_kestrelford.md, guide_eating.md, guide_givens_mill.md)"
+```
+#   distance   source                           preview
+----------------------------------------------------------------------------------------------------
+1   0.5239     guide_halden_bay.md              # Halden Bay    ## When to go  June and September ar...
+2   0.5364     guide_kestrelford.md             # Kestrelford    ## Getting around  Everything is wi...
+3   0.6006     guide_corry_vale.md              # Corry Vale    ## When to go  May to September. Out...
+4   0.6018     guide_pellew_sands.md            # Pellew Sands    ## When to go  June and September ...
+5   0.6204     guide_seasons.md                 # When to visit the region    ## Summer, June to Aug...
 
-- Produced by: `run_eval.py::main`
-- Retrieval: `store.py::search`, chunks from `chunker.py::split_documents`
+Gate: best distance 0.524 is under the 0.65 cutoff
+Produced by: app.py using store.py::search
+```
 
+```
+## When to go
+
+June and September are the sweet spot. July and August are busy enough that the parking problem becomes the defining feature of the visit. Winter is dramatic and largely closed. The coastal path is genuinely dangerous in high wind and gets shut.
+Produced by: `chunker.py::split_documents`
+```
 
 ### Criterion 2 — Every answer names a source
  How many rail services are available on Sundays? — run 1
@@ -341,7 +355,16 @@ Criterion 1 was MET because its target was at least 4 of 5 questions and the sys
 
 **What I changed:**
 
+I made one change to the grounding instruction in `generate.py` to make the source requirement explicit when the model does not have enough information to answer a question.
+
+Before: "If the documents don't cover the question, say you don't have enough information. Do not guess."
+After: "If the documents don't cover the question, say you don't have enough information and name at least one document you checked. Do not guess."
+
+
 **Why I picked it:**
+
+I picked this change because Criterion 2 missed when the Sunday rail question generated refusals without consistently naming a source. My diagnosis traced this problem to the generation stage, so I made the source requirement explicit for refusal responses.
+
 
 <!-- Connect it to a specific diagnosis above in one sentence. If you can't,
      you picked a fix because it sounded impressive. -->
@@ -353,18 +376,15 @@ Criterion 1 was MET because its target was at least 4 of 5 questions and the sys
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 4/5 | 4/5 | 4/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunks identify the place and contain complete sentences | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. Every factual claim is supported by retrieved chunks | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
 **Did it help?**
 
-<!-- Say plainly whether it did, and how you know. If it made things worse,
-     say that — a change that backfired, honestly reported, earns full credit
-     and is more interesting than one that worked. What matters is that you can
-     tell.
+Yes. The change improved Criterion 2 from 4/5, 5/5, and 4/5 before the improvement to 5/5 in all three runs after the improvement. In the new run, the Sunday rail question still could not be answered because the answer was not in the retrieved chunks, but all three refusal responses now named the documents that were checked. This changed Criterion 2 from MISSED to MET. The other four criteria kept the same verdicts.
 
      Milestone 4. -->
 
