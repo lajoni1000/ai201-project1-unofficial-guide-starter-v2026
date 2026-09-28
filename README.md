@@ -386,7 +386,7 @@ I picked this change because Criterion 2 missed when the Sunday rail question ge
 
 Yes. The change improved Criterion 2 from 4/5, 5/5, and 4/5 before the improvement to 5/5 in all three runs after the improvement. In the new run, the Sunday rail question still could not be answered because the answer was not in the retrieved chunks, but all three refusal responses now named the documents that were checked. This changed Criterion 2 from MISSED to MET. The other four criteria kept the same verdicts.
 
-     Milestone 4. -->
+
 
 ## What's Still Broken
 
@@ -398,9 +398,22 @@ Yes. The change improved Criterion 2 from 4/5, 5/5, and 4/5 before the improveme
 
      Milestone 5. -->
 
+After the improvement, none of my five acceptance criteria are still missed. However, the evaluation showed two issues that I would still like to improve.
+
+The first is the Sunday rail question. The correct answer, "six on Sundays," is in `guide_regional_transport.md`, but the chunk containing that answer was not included in the top five retrieved chunks. The system retrieved a different chunk from the same document instead. If I continued improving the system, I would focus on retrieval and test a change that could help the correct railway chunk rank higher.
+
+The second issue appeared with the Kestrelford market question in the after run. In one of the three runs, the generated answer said "the market" instead of "the market square." Because the scorer expected the phrase "the market square," that run was marked as a failure even though the answer was still supported by the retrieved context. This showed me that the current scorer can be sensitive to small differences in the model's wording.
+
+I stopped here because the improvement for this unit was focused on the Criterion 2 source attribution problem. I made one change based on that diagnosis and reran the full evaluation before making any additional changes.
+
+
 ## What I'd Do Differently
 
 <!-- Knowing what you know now — which of your five criteria would you write
      differently, and why?
 
      Milestone 5. -->
+
+Knowing what I know now, I would make Criterion 1 stricter. My original target required the retrieved chunks to contain the answer for at least 4 of 5 test questions. The system achieved exactly 4/5 in all three runs, so the criterion was MET. However, the Sunday rail question consistently failed because the chunk containing the correct answer was not retrieved.
+
+If I were writing this criterion again before testing, I would require the retrieved chunks to contain the answer for 5 of 5 questions. This would make the criterion more demanding and would not allow a consistent retrieval problem like the Sunday rail question to still meet the target.
